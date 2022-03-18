@@ -1,40 +1,34 @@
 package com.educandoweb.course2.resources;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.educandoweb.course2.entities.User;
+import com.educandoweb.course2.services.UserService;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserResourse {
+	
+	@Autowired
+	UserService service;
 
 	@GetMapping
 	public ResponseEntity<List<User>> findAll() {
-	//public ResponseEntity<User> findAll() {
-		List<User> list = new ArrayList<>();
-		
-		User u = new User(1L, "Maria", "maria@gmail.com", "62991762954", "12345");
-		User us = new User(2L, "Maria", "maria@gmail.com", "62991762954", "12345");
-		User use = new User(3L, "Maria", "maria@gmail.com", "62991762954", "12345");
-		User u2 = new User(1L, "Maria", "maria@gmail.com", "62991762954", "12345");
-		User us2 = new User(2L, "Maria", "maria@gmail.com", "62991762954", "12345");
-		User use2 = new User(3L, "Maria", "maria@gmail.com", "62991762954", "12345");
-		
-		list.add(u);
-		list.add(us);
-		list.add(use);
-		list.add(u2);
-		list.add(us2);
-		list.add(use2);
-		
-		//return ResponseEntity.ok().body(u);
+		List<User> list = service.findAll();		
 		return ResponseEntity.ok().body(list);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<User> findById(@PathVariable Long id){
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(obj);
+		
 	}
 }

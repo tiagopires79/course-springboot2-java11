@@ -3,8 +3,10 @@ package com.educandoweb.course2.resources;
 import java.net.URI;
 import java.util.List;
 
+import org.graalvm.compiler.hotspot.nodes.PatchReturnAddressNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +44,11 @@ public class UserResourse {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest() // para retornar http 201 de criação de novo recurso
 				  .path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user); // retornando novo recurso criado
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }

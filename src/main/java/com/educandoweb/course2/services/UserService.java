@@ -31,5 +31,16 @@ public class UserService {
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}
+	
+	public User update(Long id, User userUpdated) {
+	    User entity = (repository.findById(id)).get(); // Retorna um Optional, e, portanto, precisa ser convertido em User com o .get
+		updateData(entity,userUpdated);
+		return repository.save(entity);	
+	}
 
+	private void updateData(User entity, User userUpdated) {
+		entity.setName(userUpdated.getName());
+		entity.setEmail(userUpdated.getEmail());
+		entity.setPhone(userUpdated.getPhone());
+	}
 }
